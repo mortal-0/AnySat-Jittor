@@ -1,0 +1,37 @@
+# @package _global_
+
+defaults:
+  - override /dataset: BraDD
+  - override /model/network/encoder: Any_Base
+  - override /model: SemSeg
+  - override /model/network: Fine_tuning_SemSeg
+  - override /model/loss: CrossEntropyIgnore
+  - override /model/train_metrics: metrics_semseg
+  - override /model/val_metrics: metrics_semseg
+  - override /model/test_metrics: metrics_semseg
+
+dataset:
+  classif: False
+
+model:
+  name: "AnySat_LinearProbing_SemSeg"
+  optimizer:
+    lr: 2e-4
+  network:
+    encoder:
+      scale: 4
+      keep_subpatch: True
+      modality_keep: "s1"
+    instance:
+      freeze: True
+      name: "target_encoder"
+      path: ${paths.root_dir}/.models/AnySat_full.pth
+
+callbacks:
+  early_stopping:
+    monitor: "val/IoU"
+    mode: "max"
+    patience: 10
+
+modalities:
+  - "s1"

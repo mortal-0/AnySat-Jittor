@@ -1,0 +1,18 @@
+{
+    "train_npz": "/root/autodl-tmp/AnySat-main/src/jittor_lp/outputs/ts2c_features/train_features.npz",
+    "val_npz": "/root/autodl-tmp/AnySat-main/src/jittor_lp/outputs/ts2c_features/val_features.npz",
+    "test_npz": "/root/autodl-tmp/AnySat-main/src/jittor_lp/outputs/ts2c_features/test_features.npz",
+    "out_dir": "/root/autodl-tmp/AnySat-main/src/jittor_lp/outputs/pytorch_ts2c_lp_full",
+    "batch_size": 2048,
+    "epochs": 200,
+    "lr": 0.0002,
+    "weight_decay": 0.05,
+    "seed": 32,
+    "device": "cuda",
+    "num_workers": 4,
+    "limit_train_samples": 0,
+    "num_classes": 0,
+    "amp": false,
+    "scheduler": "none",
+    "warmup_epochs": 10
+}

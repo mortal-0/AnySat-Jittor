@@ -1,0 +1,31 @@
+# @package _global_
+
+defaults:
+  - override /dataset: TS2C
+  - override /model/network/encoder: Any_Base
+  - override /model/network: Fine_tuning
+  - override /model/loss: CrossEntropyIgnore
+  - override /model/train_metrics: metrics_acc
+  - override /model/val_metrics: metrics_acc
+  - override /model/test_metrics: metrics_acc
+
+model:
+  name: "AnySat_LinearProbing_SemSeg"
+  optimizer:
+    lr: 2e-4
+  network:
+    instance:
+      freeze: True
+      name: "target_encoder"
+      path: ${paths.root_dir}/.models/AnySat_full.pth
+
+max_epochs: 200
+
+callbacks:
+  early_stopping:
+    monitor: "val/OA"
+    mode: "max"
+    patience: 10
+
+modalities:
+  - "s2"

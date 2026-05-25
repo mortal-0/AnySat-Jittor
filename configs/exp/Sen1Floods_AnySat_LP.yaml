@@ -1,0 +1,40 @@
+# @package _global_
+
+defaults:
+  - override /dataset: Sen1floods11
+  - override /model/network/encoder: Any_Base
+  - override /model: SemSeg
+  - override /model/network: Fine_tuning_SemSeg
+  - override /model/loss: CrossEntropyIgnore
+  - override /model/train_metrics: metrics_seg_pangaea
+  - override /model/val_metrics: metrics_seg_pangaea
+  - override /model/test_metrics: metrics_seg_pangaea
+
+dataset:
+  global_batch_size: 4
+
+max_epochs: 200
+
+model:
+  name: "AnySat_LinearProbing_SemSeg"
+  optimizer:
+    lr: 2e-4
+  network:
+    encoder:
+      scale: 8
+      keep_subpatch: True
+      modality_keep: "s2"
+    instance:
+      freeze: True
+      name: "target_encoder"
+      path: ${paths.root_dir}/.models/AnySat_full.pth
+
+callbacks:
+  early_stopping:
+    monitor: "val/mIoU"
+    mode: "max"
+    patience: 10
+
+modalities:
+  - "s2"
+  - "s1"

@@ -1,0 +1,40 @@
+# @package _global_
+
+defaults:
+  - override /dataset: Planted
+  - override /model: Classif_reduce
+  - override /model/network: Fine_tuning
+  - override /model/network/encoder: Any_Base
+  - override /model/loss: CrossEntropy
+
+model:
+  name: "AnySat_FineTuning"
+  train_metrics:
+    multilabel: False
+  val_metrics:
+    multilabel: False
+  test_metrics:
+    multilabel: False
+  optimizer:
+    lr: 5e-5
+    weight_decay: 1e-4
+  network:
+    encoder:
+      scale: 3
+    instance:
+      name: "target_encoder"
+      path: ${paths.root_dir}/.models/AnySat_full.pth
+
+callbacks:
+  early_stopping:
+    monitor: "val/F1_Score_macro"
+    mode: "max"
+    patience: 10
+
+modalities:
+  - "s2"
+  - "s1"
+  - "l7"
+  - "alos"
+  - "modis"
+

@@ -1,0 +1,32 @@
+# @package _global_
+
+defaults:
+  - override /dataset: Pastis
+  - override /model/network/encoder: Any_Base
+  - override /model: SemSeg
+  - override /model/network: Fine_tuning_SemSeg
+
+dataset:
+  classif: False
+
+model:
+  name: "AnySat_FineTuning_SemSeg"
+  optimizer:
+    lr: 5e-5
+  network:
+    encoder:
+      scale: 4
+    instance:
+      name: "target_encoder"
+      path: ${paths.root_dir}/.models/AnySat_full.pth
+
+callbacks:
+  early_stopping:
+    monitor: "val/mIoU"
+    mode: "max"
+    patience: 10
+
+modalities:
+  - "spot"
+  - "s2"
+  - "s1"
