@@ -155,3 +155,5 @@ configs/local/default.yaml
 
 src/data/__pycache__/*
 *.pyc
+
+src/jittor_lp/outputs/ts2c_features/train_features.npz
